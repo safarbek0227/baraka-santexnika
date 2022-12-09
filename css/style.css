@@ -24,6 +24,9 @@ body{
 
 
 .sidebar{
+    position: fixed;
+    left: 0;
+    top: 0;
     display: flex;
     width: 80px;
     height: 100vh;
@@ -64,6 +67,7 @@ body{
     font-size: xx-large;
     list-style: none;
     margin-top: 80px;
+    margin-left: 10px;
 }
 .sidebar ul li{
     margin: 50px auto;
@@ -72,7 +76,8 @@ body{
     color: #fff;
     text-decoration: #fff;
 }
-.sidebar i:hover{
+.sidebar li.active i,
+.sidebar li:hover i{
     text-shadow:
     0 0 7px #fff,
     0 0 10px #efefef,
@@ -81,16 +86,107 @@ body{
 }
 .sidebar ul li span{
     position: absolute;
-    display: block;
     left: -250px;
+    display: block;
+    padding: 10px;
+    background-color: var(--sidebar);
     transition: all 0s;
+    white-space: nowrap;
 }
 .sidebar ul li:hover span{
     left: 70px;
-    background-color: var(--sidebar);
     border-radius: 15px;
     margin-left: 50px;
     margin-top: -35px;
-    padding: 10px;
     transition: all 0.8s ease-in-out;
+}
+
+.sidebar li.active::before{
+    position: absolute;
+    left: 2px;
+    content: '';
+    width: 6px;
+    height: 40px;
+    border-radius: 10px;
+    background-image: var(--gradient);
+}
+.content{
+    margin-left: 80px;
+    padding: 10px;
+}
+a{
+    all: unset;
+}
+a:hover{
+    cursor: pointer;
+}
+nav{
+    width: 100%;
+    color: #A6A9B3;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 50px;
+    justify-content: space-between;
+}
+.searchbar{
+    display: flex;
+    width: 400px;
+    height: 60px;
+    font-size: xx-large;
+    color: #A6A9B3;
+    padding: 5px 10px;
+    margin: 10px;
+    border: 2px solid #303241;
+    border-radius: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+.searchbar input{
+    color: #A6A9B3;
+    width: 85%;
+    height: 100%;
+    font-size: xx-large;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.user{
+    padding: 15px;
+    margin: 10px;
+    font-size: xx-large;
+    border: 2px solid #303241;
+    border-radius: 15px;
+}
+@media (max-width:1440px){
+    .user{
+        font-size: x-large;
+    }
+    .searchbar input{
+        font-size: xx-large;
+    }
+    .searchbar{
+        max-width: 376px;
+        font-size: x-large;
+    }
+}
+@media (max-width: 768px){
+    nav{
+        padding: 12px 0;
+        flex-direction: column-reverse;
+    }
+    .content{
+        padding: 10px 15px 0 0;
+    }
+    .searchbar{
+        width: 100%;
+        font-size: large;
+    }
+    .searchbar input{
+        font-size: large;
+    }
+    .user{
+        width: 100%;
+        font-size: larger;
+    }
 }

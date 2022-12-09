@@ -9,8 +9,6 @@
     <title>Document</title>
 </head>
 <body>
-    <nav>        
-    </nav>
     <div class="sidebar">
         <div class="header-content">
             <div class="toggle">
@@ -21,7 +19,7 @@
                 </div>
             </div>
             <ul class="list">
-                <li><a href=""><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a></li>
+                <li class="active"><a href=""><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a></li>
                 <li><a href=""><i class="fa-regular fa-parachute-box"></i><span>Tovarlar</span></a></li>
                 <li><a href=""><i class="fa-solid fa-money-check-dollar-pen"></i><span>Tovarlar qo'shish</span></a></li>
                 <li><a href=""><i class="fa-solid fa-warehouse-full"></i><span>Ombor</span></a></li>
@@ -32,6 +30,20 @@
                 <li><a href=""><i class="fa-solid fa-cog"></i><span>Sozlamalar</span></a></li>
             </ul>
         </div>
+    </div>
+    <div class="content">
+        <nav>
+            <div class="searchbar">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" placeholder="search">
+            </div>
+            <div class="user">
+                <a href="">
+                    <span>John Doe</span>
+                    <div class="fa-solid fa-user"></div>
+                </a>
+            </div>
+        </nav>
     </div>
     <script src="js/script.js"></script>
 </body>
