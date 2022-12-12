@@ -43,6 +43,10 @@ body {
     font-family: 'Public Sans', sans-serif;
 }
 
+.visible{
+    position: relative;
+    z-index: -4;
+}
 .alert{
     display: none;
 }
