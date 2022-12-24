@@ -26,6 +26,31 @@
 .text-warning{
     color: var(--warning);
 }
+.btn{
+    font-size: x-large;
+    line-height: 19px;
+    background: transparent;
+    border-radius: 6px;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid;
+}
+.btn.warning{
+    color: var(--warning);
+    border-color: var(--warning);
+}
+.btn.succes{
+    color: var(--succes);
+    border-color: var(--succes);
+}
+.btn.danger{
+    color: var(--danger);
+    border-color: var(--danger);
+}
+.card.warning{
+    border: 1px solid var(--warning);
+    padding: 15px;
+}
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -227,6 +252,22 @@ nav {
     font-size: xx-large;
     border: 2px solid #303241;
     border-radius: 15px;
+}
+.whater{
+    width: 200px;
+    padding: 15px;
+    margin: 10px;
+    font-size: xx-large;
+    border: 2px solid #303241;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.wheather-img{
+    -webkit-filter: invert(100%); /* Safari/Chrome */
+    filter: invert(100%);
+
 }
 
 @media (max-width:1440px) {
@@ -731,9 +772,25 @@ main.center{
     color: var(--warning);
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 1440px) {
+    .add-product .input-group{
+        margin: 10px;
+        padding: 10px;
+        font-size: larger;
+    }
+}
+@media (max-width: 992px) {
+    .add-product .input-group{
+        margin: 25px 15px;
+        padding: 15px;
+        font-size: xx-large;
+    }
 }
 .input-group input,
-.input-group select{
+.input-group select,
+.input-group textarea{
     background-color: transparent;
     outline: none;
     border: none;
@@ -762,7 +819,30 @@ form button{
     color: var(--color);
     transition: all 0.5s ease;
     margin: auto;
+    border: none;
 }
 form button.false{
     margin: 20px;
+}
+.workers{
+    font-size: x-large;
+    padding: 15px;
+    border-bottom: 1px solid #efefef24;
+}
+.workers.bold{
+    color: var(--warning);
+    padding: 15px;
+}
+.workers i {
+    font-size: xx-large;
+    margin: 0 10px;
+}
+@media (max-width: 1080px) {
+    .workers{
+        font-size: large;
+    }
+    .workers i{
+        font-size: large;
+    }
+    
 }
