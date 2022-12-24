@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- CSS only -->
+    <link rel="stylesheet" href="css/framework.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="divise-control">
+        <div class="sidebar">
+            <div class="header-content">
+                <div class="toggle">
+                    <div class="rectangle"></div>
+                    <div class="circles">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <ul class="list">
+                    <li><a href="index.html"><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a></li>
+                    <li class="active"><a href="products.html"><i
+                                class="fa-regular fa-parachute-box"></i><span>Tovarlar</span></a></li>
+                    <li><a href=""><i class="fa-solid fa-money-check-dollar-pen"></i><span>Tovarlar qo'shish</span></a>
+                    </li>
+                    <li><a href=""><i class="fa-solid fa-warehouse-full"></i><span>Ombor</span></a></li>
+                </ul>
+            </div>
+            <div>
+                <ul class="list">
+                    <li><a href=""><i class="fa-solid fa-cog"></i><span>Sozlamalar</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <nav>
+                <div class="searchbar">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" placeholder="search">
+                </div>
+                <div class="user">
+                    <a href="">
+                        <span>John Doe</span>
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                </div>
+            </nav>
+            <main class="center">
+                <div class="card add-product" style="padding: 25px;">
+                    <form action="">
+                        <div class="input-group">
+                            <i class="fa-regular fa-boxes-stacked"></i>
+                            <input type="text" placeholder="Nomi">
+                            <i class="fa-duotone fa-check text-succes"></i>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-sharp fa-solid fa-input-numeric"></i>
+                            <input type="text" placeholder="Soni">
+                            <i class="fa-duotone fa-check text-succes"></i>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-duotone fa-tape"></i>
+                            <select name="" id="">
+                                <option value="">Santexnika</option>
+                                <option value="">Elektr jihozlari</option>
+                                <option value="">Dastgohlar</option>
+                            </select>
+                            <i class="fa-duotone fa-check text-succes"></i>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-regular fa-money-bill"></i>
+                            <input type="text" placeholder="Olingan narxi">
+                            <i class="fa-duotone fa-ban text-danger"></i>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-money-bill-1-wave"></i>
+                            <input type="text" placeholder="Sotilish narxi">
+                            <i class="fa-duotone fa-ban text-danger"></i>
+                        </div>
+                            <button type="submit" class="submit">submit</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div class="alert">
+        <h1>Sizning qurilmangiz buni qollab quvatlamaydi</h1>
+    </div>
+    <script src="js/script.js"></script>
+    <script>
+            var btn = document.querySelector('.submit')
+            var position;
+            btn.addEventListener('mouseover', function(){
+                btn.classList.add('false')
+                position = position ? (position = 0):( position  = 300);
+                console.log(position)
+                btn.style.transform ='translate(' +position +'px)'
+                
+            })
+
+    </script>
+</body>
+
+</html>
