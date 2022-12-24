@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <main class="center">
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <style>
+        .btn {
+            display: block;
+            text-align: -webkit-center;
+            padding: 10px 25px;
+            background-color: var(--warning);
+            border-radius: 15px;
+            font-size: x-large;
+            color: var(--color);
+            transition: all 0.5s ease;
+            margin: auto;
+            border: none;
+        }
+    </style>
+</body>
+
+</html>

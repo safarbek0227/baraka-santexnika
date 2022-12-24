@@ -1,0 +1,13 @@
+{% extends 'account/wrapper.html' %}
+{% load static %}
+{% block content %}
+        <div class="card add-product" style="padding: 25px;">
+            <h1>Hisobdan chiqildi</h1>
+            <br>
+            <h3 style="margin: 0;">Bugun veb-sayt bilan sifatli vaqt o'tkazganingiz uchun tashakkur.</h3>
+            <br>
+            <h3 style="margin: 0;">
+                <a href="{% url 'account:login' %}" class="text-warning">Qayta kirish</a>
+            </h3>
+        </div>
+{% endblock %}
