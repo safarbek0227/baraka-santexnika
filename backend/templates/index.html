@@ -7,25 +7,25 @@
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-solid fa-sack-dollar"></i>Kirim</h2>
-                    <h1>32482</h1>
+                    <h1>{{report.income}}</h1>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-regular fa-circle-dollar-to-slot"></i>Chiqim</h2>
-                    <h1>32,482.44</h1>
+                    <h1>{{report.outcome}}</h1>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-solid fa-truck-fast"></i>Sotildi</h2>
-                    <h1 class="none">210ta</h1>
+                    <h1 class="none">{{report.sells}}ta</h1>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-solid fa-box-taped"></i>Ombor</h2>
-                    <h1 class="none">140ta</h1>
+                    <h1 class="none">{{report.buy}}ta</h1>
                 </div>
             </div>
         </div>
@@ -41,81 +41,32 @@
                     <li><i class="fa-light fa-circle-dollar"></i>Jami summa</li>
                 </ul>
                 <div style="height: 330px; overflow-x: auto; padding-right: 15px;">
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
-                    <ul>
-                        <li>Politiren turba</li>
-                        <li>500m</li>
-                        <li>10/metr</li>
-                        <li>5million</li>
-                    </ul>
+                    {% for history in historys %}
+                        <ul>
+                            <li>{{history.product.name}}</li>
+                            <li>{{history.quantity}}</li>
+                            <li>{{history.product.sell}}sum/{{history.product.measure}}</li>
+                            <li>{{history.price}} sum</li>
+                        </ul>                        
+                    {% endfor %}
                 </div>
             </div>
             <div class="col-xl-4">
                 <aside>
                     <div class="searchbar" style="width: 100%;">
                         <i class="fa-solid fa-clipboard-list-check"></i>
-                        <input type="text" placeholder="Add todo">
-                        <i class="fa-solid fa-arrow-turn-down submit"></i>
+                        <input type="text" placeholder="Add todo" >
+                        <i class="fa-solid fa-arrow-turn-down submit" onclick="getTodos()"></i>
                     </div>
                     <ul style="height: 260px; overflow-y: auto;" class="list">
-                        <li>
-                            <div class="cntr">
-                                <input type="checkbox" id="cbx" class="hidden-xs-up">
-                                <label for="cbx" class="cbx"></label>
-                              </div>
-                            <span>lorem ipsum</span>
+                        {% for todo in todos %}
+                        <li class="{% if todo.is_active %}finished{% endif %}">
+                            <input type="checkbox" id="{{todos.id}}"  onclick="updated({{todo.id}})" {% if todo.is_active %}checked disabled {% endif %}>
+                            <span>{{todo.name}}</span>
                         </li>
-                        <li>
-                            <div class="cntr">
-                                <input type="checkbox" id="cbx" class="hidden-xs-up">
-                                <label for="cbx" class="cbx"></label>
-                              </div>
-                            <span>lorem ipsum</span>
-                        </li>
-                        <li class="finished">
-                            <div class="cntr">
-                                <input type="checkbox" id="cbx" class="hidden-xs-up">
-                                <label for="cbx" class="cbx"></label>
-                              </div>
-                            <span>lorem ipsum</span>
-                        </li>
+                        {% endfor %}
                     </ul>
-                    <a href="" class="text-warning">Barchasini korish</a>
+                    <a href="{% url 'main:todos'%}" class="text-warning">Barchasini korish</a>
                 </aside>
             </div>
         </div>

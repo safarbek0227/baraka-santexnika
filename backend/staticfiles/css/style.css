@@ -368,8 +368,14 @@ main .table-list li {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
-
+main .table-list input[type= checkbox]{
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+}
 main .table-list ul i {
     margin: 0 10px;
     color: #AF53FF;
@@ -845,4 +851,29 @@ form button.false{
         font-size: large;
     }
     
+}
+.todo-list li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* .djdt-hidden{
+    display: block !important;
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    z-index: 90;
+} */
+#djDebug .djdt-panelContent{
+    all: unset !important;
+}
+#djDebug .djDebugPanelTitle{
+    display: none;
+}
+.#djDebug .djDebugPanelContent .djdt-loader{
+    display: none;
+}
+#djDebug .djdt-panelContent{
+    display: none !important;
 }

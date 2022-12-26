@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/static/css/framework.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/debug_toolbar/css/toolbar.css">
     <title>Document</title>
 </head>
 <body>
@@ -30,6 +31,7 @@
             </div>
             <div>
                 <ul class="list">
+                    
                     <li><a href=""><i class="fa-solid fa-cog"></i><span>Sozlamalar</span></a></li>
                 </ul>
             </div>
@@ -42,8 +44,10 @@
                 </div>
                 <div class="user">
                     <a href="">
-                        <span>John Doe</span>
-                        <i class="fa-solid fa-user"></i>
+                        {% if request.user.is_authenticated %}
+                            <span>{{request.user}}</span>
+                            <i class="fa-solid fa-industry-windows"></i>
+                        {% endif %}
                     </a>
                 </div>
             </nav>
@@ -53,7 +57,10 @@
     <div class="alert">
         <h1>Sizning qurilmangiz buni qollab quvatlamaydi</h1>
     </div>
-
+<script>
+    
+</script>
     <script src="/static/js/script.js"></script>
+    
 </body>
 </html>

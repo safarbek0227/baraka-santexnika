@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<br><br>
+<div class="container">
+    <div class="row table-list" >
+        <div class="col-xl-12">
+            <aside>
+                <div class="searchbar" style="width: 100%;">
+                    <i class="fa-solid fa-clipboard-list-check"></i>
+                    <input type="text" placeholder="Add todo" >
+                    <i class="fa-solid fa-arrow-turn-down submit" onclick="getTodos()"></i>
+                </div>
+                <ul style="height: 260px; width: 100%; list-style: none;" class="list todo-list">
+                    {% for todo in todos %}
+                    <li class="{% if todo.is_active %}finished{% endif %}">
+                        <div>
+                            <input type="checkbox" id="{{todos.id}}" style="width: 30px; height: 30px;"  onclick="updated({{todo.id}})" {% if todo.is_active %}checked disabled {% endif %}>
+                            <span>{{todo.name}}</span>
+                        </div>
+                        <i class="fa-solid fa-trash text-danger" onclick="editTodo({{todo.id}} , 'delete')"></i>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </aside>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -32,3 +32,5 @@ class User(AbstractUser):
 	USERNAME_FIELD = "username"
 	first_name = None
 	last_name = None
+
+
