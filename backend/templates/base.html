@@ -24,34 +24,20 @@
                 </div>
                 <ul class="list">
                     <li class="active"><a href="{% url 'main:home'%}"><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a></li>
-                    <li><a href="products.html"><i class="fa-regular fa-parachute-box"></i><span>Tovarlar</span></a></li>
-                    <li><a href=""><i class="fa-solid fa-money-check-dollar-pen"></i><span>Tovarlar qo'shish</span></a></li>
-                    <li><a href=""><i class="fa-solid fa-warehouse-full"></i><span>Ishchilar</span></a></li>
+                    <li><a href="{% url 'main:product' %}"><i class="fa-regular fa-parachute-box"></i><span>Tovarlar</span></a></li>
+                    <li><a href="/dsada"><i class="fa-solid fa-money-check-dollar-pen"></i><span>Tovarlar qo'shish</span></a></li>
+                    <li><a href="/sdsad"><i class="fa-solid fa-warehouse-full"></i><span>Ishchilar</span></a></li>
                 </ul>
             </div>
             <div>
                 <ul class="list">
                     
-                    <li><a href=""><i class="fa-solid fa-cog"></i><span>Sozlamalar</span></a></li>
+                    <li><a href="/dasd"><i class="fa-solid fa-cog"></i><span>Sozlamalar</span></a></li>
                 </ul>
             </div>
         </div>
-        <div class="content">
-            <nav>
-                <div class="whater">
-                    <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
-                    <img src="" alt="" class="wheather-img" width="40px">
-                </div>
-                <div class="user">
-                    <a href="">
-                        {% if request.user.is_authenticated %}
-                            <span>{{request.user}}</span>
-                            <i class="fa-solid fa-industry-windows"></i>
-                        {% endif %}
-                    </a>
-                </div>
-            </nav>
-            {% block content %} {% endblock %}
+
+            {% block content %} {% endblock content %}
         </div>
     </div>
     <div class="alert">
@@ -61,6 +47,8 @@
     
 </script>
     <script src="/static/js/script.js"></script>
+    {% block code %}
+    {% endblock code %}
     
 </body>
 </html>

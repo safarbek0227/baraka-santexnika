@@ -7,5 +7,7 @@ urlpatterns = [
     path("", views.HomeView , name="home"),
     path("GetTodos/", views.workWithTodo , name="GetTodos"),
     path("todos/", views.todoView , name="todos"),
+    path("products/", views.productView , name="product"),
+    path("history/", views.historyView , name="history"),
 
 ]

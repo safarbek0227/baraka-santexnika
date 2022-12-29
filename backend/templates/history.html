@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content">
+    <nav>
+        <div class="searchbar">
+            <i class="fa-solid fa-search"></i>
+            <input type="text" placeholder="search">
+        </div>
+        <div class="user">
+            <a href="">
+                <span>{{request.user}}</span>
+                <i class="fa-solid fa-user"></i>
+            </a>
+        </div>
+    </nav>
+    <main>
+        <div class="status-bar">
+            <ul>
+                <li><a href="{% url 'main:product' %}">Mahsulotlar <span class="undrline"></span></a></li>
+                <li  class="active"><a href="{% url 'main:history' %}">Tarix <span class="undrline"></span></a></li>
+            </ul>
+            <div class="total">
+                <span>sof foyda: <strong>9000$</strong></span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="table">
+                <form action="" onchange="submit()">
+                <div class="table-header">
+                    <div class="focus-item">
+                        {{form.mode}}
+                    </div>
+                    <div class="search-form">
+                        <i class="fa-solid fa-search"></i>
+                        {{form.query}}
+                    </div>
+                    <div class="focus-item">
+                        {{form.product}}
+                    </div>
+                    {{form.time}}
+                    </div>
+                </form>
+            </div>
+            <div class="table-content">
+                <header>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>Nomi</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Holati</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Soni</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Narxi</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Izoh</strong>
+                        </div>
+                        <div class="col-1">
+                            <strong><i class="fa-solid fa-ellipsis-vertical"></i></strong>
+                        </div>
+                    </div>
+                </header>
+                <main>
+                    {% for history in histories %}
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>{{history.product.name}}</strong>
+                        </div>
+                        <div class="col-2">
+                            {% if history.mode == 'sale' %}
+                            <strong class="sale">Sotildi</strong>
+                            {% else %}
+                            <strong class="come">Keldi</strong>
+                            {% endif%}
+                            <span>{{history.created_at}}</span>
+                        </div>
+                        <div class="col-2">
+                            <strong>{{history.quantity}} {{history.product.measure}}</strong>
+                        </div>
+                        <div class="col-2">
+                            {{history.price}}
+                        </div>
+                        <div class="col-2">
+                            <strong class="number">{{history.comment}}</strong>
+                        </div>
+                        <div class="col-1">
+                            <strong><i class="fa-solid fa-ellipsis-vertical"></i></strong>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </main>
+                <footer>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-3">
+                            <span><strong>{{histories|length }} ta ro'yxati</strong></span>
+                        </div>
+                        <div class="col-3">
+                            <span><strong>{{ histories.paginator.count }} </strong>Ro'yxatdan {{ histories.start_index }}-{{ histories.end_index }}tasi</span>
+                        </div>
+                        <div class="col-2">
+                            {% if histories.has_previous %}
+                            <a href="?page={{ histories.previous_page_number }}" style="margin: 0 10px;">
+                                <i class="fa-solid fa-chevrons-left"></i>
+                            </a>
+                            {% endif %}
+                            {% if histories.has_next %}
+                            <a href="?page={{ histories.next_page_number }}" style="margin: 0 10px;">
+                                <i class="fa-solid fa-chevrons-right"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+{% endblock %}
+
+
+{% block code %}
+<script>
+    num = document.querySelectorAll('.number')
+    for (let i = 0; i < num.length; i++) {
+        num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+    }
+    document.querySelector('#id_mode option:nth-child(1)').innerText = 'Hammasi'
+    document.querySelector('#id_product option:nth-child(1)').innerText = 'mahsulot nomi'
+</script>
+{% endblock code %}

@@ -1,6 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
 <br><br>
+<div class="content">
+    <nav>
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
+        </div>
+        <div class="user">
+            <a href="">
+                {% if request.user.is_authenticated %}
+                    <span>{{request.user}}</span>
+                    <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
 <div class="container">
     <div class="row table-list" >
         <div class="col-xl-12">
@@ -25,4 +40,6 @@
         </div>
     </div>
 </div>
+</div>
+
 {% endblock %}

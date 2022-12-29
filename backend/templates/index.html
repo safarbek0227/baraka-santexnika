@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="content">
+    <nav>
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
+        </div>
+        <div class="user">
+            <a href="">
+                {% if request.user.is_authenticated %}
+                    <span>{{request.user}}</span>
+                    <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
 <main>
     <br><br>
     <div class="monthly-information">
@@ -7,25 +22,25 @@
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-solid fa-sack-dollar"></i>Kirim</h2>
-                    <h1>{{report.income}}</h1>
+                    <h1 class="number">{{report.income}}</h1>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-regular fa-circle-dollar-to-slot"></i>Chiqim</h2>
-                    <h1>{{report.outcome}}</h1>
+                    <h1 class="number">{{report.outcome}}</h1>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-solid fa-truck-fast"></i>Sotildi</h2>
-                    <h1 class="none">{{report.sells}}ta</h1>
+                    <h1 class="none number">{{report.sells}}</h1>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-6 col-md-6">
                 <div class="card">
                     <h2><i class="fa-solid fa-box-taped"></i>Ombor</h2>
-                    <h1 class="none">{{report.buy}}ta</h1>
+                    <h1 class="none number">{{report.stock}}</h1>
                 </div>
             </div>
         </div>
@@ -41,12 +56,12 @@
                     <li><i class="fa-light fa-circle-dollar"></i>Jami summa</li>
                 </ul>
                 <div style="height: 330px; overflow-x: auto; padding-right: 15px;">
-                    {% for history in historys %}
-                        <ul>
+                    {% for history in histories %}
+                        <ul class="{% if  history.mode == 'sale' %}sale{% else %}come{% endif %}">
                             <li>{{history.product.name}}</li>
-                            <li>{{history.quantity}}</li>
-                            <li>{{history.product.sell}}sum/{{history.product.measure}}</li>
-                            <li>{{history.price}} sum</li>
+                            <li><span class="number">{{history.quantity}}</span> {{history.product.measure}}</li>
+                            <li><span class="number">{{history.product.sell}}</span> sum/{{history.product.measure}}</li>
+                            <li><span class="number">{{history.price}}</span> sum</li>
                         </ul>                        
                     {% endfor %}
                 </div>
@@ -72,4 +87,43 @@
         </div>
     </div>
 </main>
+</div>
 {% endblock %}
+
+{% block code %}
+<script>
+    
+/*SEARCH BY USING A CITY NAME (e.g. athens) OR A COMMA-SEPARATED CITY NAME ALONG WITH THE COUNTRY CODE (e.g. athens,gr)*/
+const form = document.querySelector(".top-banner form");
+const input = document.querySelector(".top-banner input");
+const msg = document.querySelector(".top-banner .msg");
+const list = document.querySelector(".ajax-section .cities");
+/*SUBSCRIBE HERE FOR API KEY: https://home.openweathermap.org/users/sign_up*/
+const apiKey = "4d8fb5b93d4af21d66a2948710284366";
+
+//ajax here
+const url = `https://api.openweathermap.org/data/2.5/weather?q=Andijon&appid=${apiKey}&units=metric`;
+
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        const { main, name, sys, weather } = data;
+        console.log(main.temp)
+        document.querySelector('.degres').innerText = main.temp
+        const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]
+            }.svg`;
+        console.log(icon)
+        console.log(weather[0])
+        document.querySelector('.wheather-img').src = icon
+
+    })
+    .catch(() => {
+        msg.textContent = "Please search for a valid city 😩";
+    });
+
+    num = document.querySelectorAll('.number')
+    for (let i = 0; i< num.length; i++){
+        num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g,'$1,')
+    }
+</script>
+{% endblock code %}
