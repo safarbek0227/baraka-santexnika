@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .models import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.core.paginator import Paginator
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.forms.models import model_to_dict
 from .forms import *
+from .models import *
  
 # Create your views here.
 @login_required
@@ -58,7 +61,6 @@ def historyView(request):
             history = history.filter(product=form['product'].value())   
         if form['time'].value():
             start = timezone.now() - timedelta(days=int(form['time'].value()))
-            print(start)
             history = history.filter(created_at__range=[start,timezone.now()])    
     
     history = Paginator(history, 6)
@@ -68,4 +70,61 @@ def historyView(request):
     return render(request, 'history.html', {'histories': page_obj, 'form': form})
 
 def productView(request):
-    return render(request, 'product.html')
+    products = Product.objects.select_related('group').all()
+    form = ProductSearchform(request.GET or None)
+    if request.method == 'GET':
+        if form['time'].value():
+            start = timezone.now() - timedelta(days=int(form['time'].value()))
+            products = products.filter(created_at__range=[start,timezone.now()])    
+        if form['group'].value():
+            products = products.filter(group=form['group'].value())
+        if form['query'].value():
+            products = products.filter(name__icontains=form['query'].value())
+        if request.GET.get('id', False):
+            obj = Product.objects.select_related('group').get(id=request.GET.get('id', False))
+            obj.delete()
+            return HttpResponseRedirect("/product")
+
+    products = Paginator(products, 6)
+    page_number = request.GET.get('page')
+    page_obj = products.get_page(page_number)
+
+    return render(request, 'product.html',  {'products': page_obj, 'form': form})
+
+class ProductCreate(LoginRequiredMixin, CreateView):
+    model = Product
+    template_name = 'addproduct.html'
+    fields = '__all__'
+    exclude = ('is_calc')
+    success_url = '/product/'
+
+    def form_valid(self, form):
+        form.instance.is_calc = True
+        return super().form_valid(form)
+
+class EditProduct(LoginRequiredMixin, UpdateView):
+    model = Product
+    template_name = 'addproduct.html'
+    fields = ("name", "sell", "buy", 'measure', "group")
+    success_url = '/product/'
+
+class CreateHistory(LoginRequiredMixin, CreateView):
+    model = HistoryProduct
+    template_name = 'AddHistory.html'
+    fields = '__all__'
+    exclude = ('is_calc')
+    success_url = '/history/'
+
+    def get_initial(self):
+        super(CreateHistory, self).get_initial()
+        return {'product': self.request.GET.get('id', False)}
+
+    def form_valid(self, form):
+        form.instance.is_calc = True
+        return super().form_valid(form)
+
+
+def GetProduct(request):
+    if request.method == 'GET' and request.user.is_authenticated:
+        obj = Product.objects.select_related('group').get(id = request.GET.get('data', True))
+        return JsonResponse({'obj': model_to_dict(obj)})

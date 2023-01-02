@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content">
+    <nav>
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
+        </div>
+        <div class="user">
+            <a href="">
+                {% if request.user.is_authenticated %}
+                    <span>{{request.user}}</span>
+                    <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
+    <main class="center">
+        <div class="card add-product" style="padding: 25px;">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-group">
+                    <i class="fa-regular fa-boxes-stacked"></i>
+                    {{form.name}}
+                </div>
+                {% if form.quantity %}
+                <div class="input-group">
+                    <i class="fa-sharp fa-solid fa-input-numeric"></i>
+                    {{form.quantity}}
+                </div>
+                {% endif %}
+                <div class="input-group">
+                    <i class="fa-duotone fa-tape"></i>
+                    {{form.group}}
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-scale-unbalanced-flip"></i>
+                    {{form.measure}}
+                </div>
+                <div class="input-group">
+                    <i class="fa-regular fa-money-bill"></i>
+                    {{form.buy}}
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-money-bill-1-wave"></i>
+                    {{form.sell}}
+                </div>
+                    <button type="submit" class="submit">submit</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock content%}
+
+{% block code %}
+<script>
+    document.querySelector('#id_group option:nth-child(1)').innerText = 'kategoriya'
+    document.querySelector('#id_measure option:nth-child(1)').innerText = 'o\'lchov birligi'
+
+    inputs = document.querySelectorAll('.add-product input')
+    texts = ['', 'nomi','soni', 'olingan narxi', 'sotilish narxi' ]
+    for(let i = 0; i < inputs.length; i++){
+        inputs[i].placeholder = texts[i];
+        inputs[i].autocomplete = 'off'
+    }
+</script>
+{% endblock code %}

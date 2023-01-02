@@ -2,14 +2,16 @@
 {% block content %}
 <div class="content">
     <nav>
-        <div class="searchbar">
-            <i class="fa-solid fa-search"></i>
-            <input type="text" placeholder="search">
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
         </div>
         <div class="user">
             <a href="">
-                <span>{{request.user}}</span>
-                <i class="fa-solid fa-user"></i>
+                {% if request.user.is_authenticated %}
+                    <span>{{request.user}}</span>
+                    <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
             </a>
         </div>
     </nav>
@@ -20,7 +22,7 @@
                 <li  class="active"><a href="{% url 'main:history' %}">Tarix <span class="undrline"></span></a></li>
             </ul>
             <div class="total">
-                <span>sof foyda: <strong>9000$</strong></span>
+                <span></span>
             </div>
         </div>
         <div class="card">
@@ -47,7 +49,7 @@
                         <div class="col-3">
                             <strong>Nomi</strong>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <strong>Holati</strong>
                         </div>
                         <div class="col-2">
@@ -59,9 +61,6 @@
                         <div class="col-2">
                             <strong>Izoh</strong>
                         </div>
-                        <div class="col-1">
-                            <strong><i class="fa-solid fa-ellipsis-vertical"></i></strong>
-                        </div>
                     </div>
                 </header>
                 <main>
@@ -70,7 +69,7 @@
                         <div class="col-3">
                             <strong>{{history.product.name}}</strong>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             {% if history.mode == 'sale' %}
                             <strong class="sale">Sotildi</strong>
                             {% else %}
@@ -79,18 +78,25 @@
                             <span>{{history.created_at}}</span>
                         </div>
                         <div class="col-2">
-                            <strong>{{history.quantity}} {{history.product.measure}}</strong>
+                            <strong><span class="number">{{history.quantity}}</span> {{history.product.measure}}</strong>
                         </div>
                         <div class="col-2">
-                            {{history.price}}
+                            <span class="number">{{history.price}}</span>
                         </div>
                         <div class="col-2">
                             <strong class="number">{{history.comment}}</strong>
                         </div>
-                        <div class="col-1">
-                            <strong><i class="fa-solid fa-ellipsis-vertical"></i></strong>
-                        </div>
                     </div>
+                    {% empty %}
+                    <br><br>
+                    <div class="row" style="border: none;">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h1 class="text-warning">Hech narsa topilmadi!  :)</h1>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <br><br>
                     {% endfor %}
                 </main>
                 <footer>
@@ -132,6 +138,10 @@
         num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g, '$1,')
     }
     document.querySelector('#id_mode option:nth-child(1)').innerText = 'Hammasi'
+    document.querySelector('#id_mode option:nth-child(2)').innerText = 'Keldi'
+    document.querySelector('#id_mode option:nth-child(3)').innerText = 'Sotildi'
+
     document.querySelector('#id_product option:nth-child(1)').innerText = 'mahsulot nomi'
+    document.querySelector('.list li:nth-child(2)').classList.add('active')
 </script>
 {% endblock code %}

@@ -1,3 +1,146 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="content">
+    <nav>
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
+        </div>
+        <div class="user">
+            <a href="">
+                {% if request.user.is_authenticated %}
+                    <span>{{request.user}}</span>
+                    <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
+    <main>
+        <div class="status-bar">
+            <ul>
+                <li class="active"><a href="{% url 'main:product' %}">Mahsulotlar <span class="undrline"></span></a></li>
+                <li><a href="{% url 'main:history' %}">Tarix <span class="undrline"></span></a></li>
+            </ul>
+            <div class="total">
+                <!-- <span></span> -->
+            </div>
+        </div>
+        <div class="card">
+            <div class="table">
+                <form action="" onchange="submit()">
+                <div class="table-header">
+                    <div class="focus-item">
+                        {{form.group}}
+                    </div>
+                    <div class="search-form">
+                        <i class="fa-solid fa-search"></i>
+                        {{form.query}}
+                    </div>
+                    <div class="focus-item">
+                        {{form.product}}
+                    </div>
+                    {{form.time}}
+                    </div>
+                </form>
+            </div>
+            <div class="table-content">
+                <header>
+                    <div class="row">
+                        <div class="col-2">
+                            <strong>Nomi</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Holati</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Qoldi</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Narxi(olinishi)</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Narxi(sotilishi)</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong>Boshqaruv</strong>
+                        </div>
+                    </div>
+                </header>
+                <main>
+                    {% for product in products %}
+                    <div class="row">
+                        <div class="col-2">
+                            <strong>{{product.name}}</strong>
+                        </div>
+                        <div class="col-2">
+                            <strong class="{% if product.quantity > 1000 %}come{% else %} sale {% endif %}">{{product.group}}</strong>
+                            <span>{{product.created_at}}</span>
+                        </div>
+                        <div class="col-2">
+                            <strong><span class="number">{{product.quantity}}</span> {{product.measure}}</strong>
+                        </div>
+                        <div class="col-2">
+                            <span class="number">{{product.buy}}</span> sum
+                        </div>
+                        <div class="col-2">
+                            <strong> <span class="number">{{product.sell}}</span> sum</strong>
+                        </div>
+                        <div class="col-2">
+                            <a href="{% url 'main:create-history' %}?id={{product.id}}"><i class="fa-solid fa-cart-circle-arrow-up text-warning"></i></a>
+                            <a href="{% url 'main:edit-prouct' product.id %}"><i class="fa-solid fa-pen-to-square text-succes"></i></a>
+                            <a href="?id={{product.id}}"><i class="fa-solid fa-trash text-danger"></i></a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <br><br>
+                    <div class="row" style="border: none;">
+                        <div class="col-3"></div>
+                        <div class="col-6">
+                            <h1 class="text-warning">Hech narsa topilmadi!  :)</h1>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
+                    <br><br>
+                    {% endfor %}
+                </main>
+                <footer>
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-3">
+                            <span><strong>{{products|length }} ta ro'yxat</strong></span>
+                        </div>
+                        <div class="col-3">
+                            <span><strong>{{ products.paginator.count }} </strong>Ro'yxatdan {{ products.start_index }}-{{ products.end_index }}tasi</span>
+                        </div>
+                        <div class="col-2">
+                            {% if products.has_previous %}
+                            <a href="?page={{ products.previous_page_number }}" style="margin: 0 10px;">
+                                <i class="fa-solid fa-chevrons-left"></i>
+                            </a>
+                            {% endif %}
+                            {% if products.has_next %}
+                            <a href="?page={{ products.next_page_number }}" style="margin: 0 10px;">
+                                <i class="fa-solid fa-chevrons-right"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+    </main>
+</div>
+
 {% endblock content%}
+
+{% block code %}
+<script>
+    num = document.querySelectorAll('.number')
+    for (let i = 0; i < num.length; i++) {
+        num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+    }
+    document.querySelector('#id_group option:nth-child(1)').innerText = 'kategoriya'
+    document.querySelector('#id_time option:nth-child(1)').innerText = 'Vaqt'
+</script>
+{% endblock code %}

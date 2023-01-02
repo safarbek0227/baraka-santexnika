@@ -43,7 +43,7 @@ class Group(models.Model):
 
 class Product(models.Model):
     MEASURE = (
-		( 'Metrida', 'metr'),
+		( 'Metr', 'metr'),
 		('kg', 'kg'),
 		('sonida', 'number'),
 	)
@@ -53,23 +53,22 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField()
     buy = models.PositiveIntegerField()
     sell = models.PositiveIntegerField()
-    comment = models.TextField(blank=True)
     is_calc = models.BooleanField(default=True)
+    created_at = models.DateTimeField("Created at", auto_now_add=True)
 
     def save(self,*args, **kwargs):
         if self.is_calc:
             report = MontylyReport.objects.last()
             report.outcome = report.outcome + (self.quantity * self.buy)
-            report.stock = report.stock + self.quantity
             report.save()
             self.is_calc = False
         super(Product, self).save(*args, **kwargs)
 
-    def __str__(self):
-
-
-        
+    def __str__(self):        
         return f"{self.name}"
+    
+    class Meta:
+        ordering = ['-id']
       
 
 class HistoryProduct(models.Model):
@@ -87,27 +86,23 @@ class HistoryProduct(models.Model):
 
     def save(self,*args, **kwargs):
         self.price = f"{(self.quantity * self.product.sell)}"
-        try:
-            if self.is_calc:
-                if self.mode == 'add':
-                    report = MontylyReport.objects.last()
-                    report.income = report.income + (self.quantity * self.product.sell)
-                    report.sells = report.sells + self.quantity
-                    report.stock = report.stock - self.quantity
-                    report.save()
-                    obj = Product.objects.get(id = self.product.id)
-                    obj.quantity = self.product.quantity + self.quantity
-                    obj.save()
-                if self.mode == 'sale':
-                    report = MontylyReport.objects.last()
-                    report.outcome = report.outcome + (self.quantity * self.product.buy)
-                    report.stock = report.stock - self.quantity
-                    report.save()
-                    obj = Product.objects.get(id = self.product.id)
-                    obj.quantity = self.product.quantity - self.quantity
-                    obj.save()
-                self.is_calc = False
-        except: pass
+        if self.is_calc:
+            if self.mode == 'add':
+                report = MontylyReport.objects.last()
+                report.outcome = report.outcome + (self.quantity * self.product.buy)
+                report.save()
+                obj = Product.objects.get(id = self.product.id)
+                obj.quantity = self.product.quantity + self.quantity
+                obj.save()
+            if self.mode == 'sale':
+                report = MontylyReport.objects.last()
+                report.income = report.income + (self.quantity * self.product.sell)
+                report.save()
+                obj = Product.objects.get(id = self.product.id)
+                obj.quantity = self.product.quantity - self.quantity
+                print(obj.quantity)
+                obj.save()
+            self.is_calc = False
         super(HistoryProduct, self).save(*args, **kwargs)
     
 

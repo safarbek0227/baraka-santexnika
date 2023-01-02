@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <!-- CSS only -->
+    <link rel="shortcut icon" href="/static/img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/framework.css">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -15,7 +16,7 @@
     <div class="divise-control">
         <div class="sidebar">
             <div class="header-content">
-                <div class="toggle">
+                <div class="toggle" id="toggle">
                     <div class="rectangle"></div>
                     <div class="circles">
                         <div class="circle"></div>
@@ -25,14 +26,14 @@
                 <ul class="list">
                     <li class="active"><a href="{% url 'main:home'%}"><i class="fa-solid fa-house"></i><span>Bosh sahifa</span></a></li>
                     <li><a href="{% url 'main:product' %}"><i class="fa-regular fa-parachute-box"></i><span>Tovarlar</span></a></li>
-                    <li><a href="/dsada"><i class="fa-solid fa-money-check-dollar-pen"></i><span>Tovarlar qo'shish</span></a></li>
-                    <li><a href="/sdsad"><i class="fa-solid fa-warehouse-full"></i><span>Ishchilar</span></a></li>
+                    <li><a href="{% url 'main:add-prouct' %}"><i class="fa-solid fa-money-check-dollar-pen"></i><span>Tovarlar qo'shish</span></a></li>
+                    <li><a href="{% url 'main:create-history' %}"><i class="fa-solid fa-warehouse-full"></i><span>Sotish / qo'shish</span></a></li>
                 </ul>
             </div>
             <div>
                 <ul class="list">
                     
-                    <li><a href="/dasd"><i class="fa-solid fa-cog"></i><span>Sozlamalar</span></a></li>
+                    <li><a href="/profile/logout"><i class="fa-solid fa-sign-out"></i><span>Chiqish</span></a></li>
                 </ul>
             </div>
         </div>

@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content">
+    <nav>
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
+        </div>
+        <div class="user">
+            <a href="">
+                {% if request.user.is_authenticated %}
+                <span>{{request.user}}</span>
+                <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
+    <main class="center">
+        <div class="card add-product" style="padding: 25px; max-width: unset;">
+            <div class="row">
+                <div class="col-lg-6">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <i class="fa-solid fa-cart-circle-arrow-up text-warning"></i>
+                            {{form.mode}}
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-duotone fa-tape"></i>
+                            {{form.product}}
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-sharp fa-solid fa-input-numeric"></i>
+                            {{form.quantity }}
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-comments-dollar"></i>
+                            {{form.comment}}
+                        </div>
+                        <button type="submit" class="submit">submit</button>
+                    </form>
+                </div>
+                <div class="col-lg-6" id="res-data">
+
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<li><strong></strong></li>
+{% endblock content %}
+
+{% block code %}
+<style>
+    .add-product ul {
+        font-size: xx-large;
+        text-align: left;
+        margin: 10%;
+        list-style: none;
+    }
+
+    .add-product li {
+        margin: 10px 0;
+    }
+
+    .add-product ul strong {
+        color: var(--warning);
+        margin-right: 15px;
+    }
+
+    @media (max-width: 1440px) {
+        .add-product ul {
+            font-size: x-large;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .add-product ul {
+            font-size: xx-large;
+        }
+    }
+
+    .b-black {
+        border: 5px solid grey !important;
+    }
+</style>
+<script>
+    let textfield = document.getElementById('id_comment').rows = 2
+    let query = document.getElementById('id_product')
+    let inp = document.getElementById('id_quantity')
+    let mode = document.getElementById('id_mode')
+    let data = ''
+
+    inp.disabled = true
+    inp.placeholder = 'soni'
+    inp.parentElement.classList.add('b-black')
+
+    query.addEventListener('change', SendData)
+    window.addEventListener('load', SendData)
+    
+    function SendData() {
+        if (query.value != '') 
+        {
+            if (window.XMLHttpRequest) {
+                var xhttp = new XMLHttpRequest();
+            } else {  // code for IE6, IE5
+                var xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    data = JSON.parse(this.responseText);
+                    inp.disabled = false
+                    inp.parentElement.classList.remove('b-black')
+                    object = data.obj
+                    block = document.getElementById('res-data')
+                    block.innerHTML = `
+                        <ul>
+                            <li><strong>Nomi:</strong> ${object.name}</li>
+                            <li><strong>Qoldi:</strong>${object.quantity}${object.measure}</li>
+                            <li><strong>Olinishi:</strong> <span class='number'>${object.buy}(Sum)</span> </li>
+                            <li><strong>Sotilishi:</strong><span class="number">${object.sell}(Sum)</span> </li>
+                            <li style='margin: 15px 0;'> <hr style='width:80%'></li>
+                            <li><strong>necha ${object.measure}:</strong> <span id='quantity'></span> ${object.measure}</li>
+                            <li><strong>Jami summa:</strong> <span id=total></span></li>
+                        </ul>
+                    `
+                }
+            }
+            var url = "/getproduct/"
+            xhttp.open("GET", url + `?data=${query.value}`, true);
+            xhttp.send();
+
+        }
+        if(query.value == ''){
+            inp.disabled = true
+            inp.parentElement.classList.add('b-black')
+            document.getElementById('res-data').innerHTML = ''
+
+        }
+    }
+
+    inp.onkeyup = function () {
+        quantity = document.getElementById('quantity')
+        quantity.innerHTML = inp.value
+        if (mode.value == 'sale') {
+            document.getElementById('total').innerText = `${inp.value * data.obj.sell} (sotildi)`
+            if(inp.value > data.obj.quantity){
+                alert('siz kiritgancha mahsulot yoq')
+                inp.value = data.obj.quantity
+                quantity.innerHTML = inp.value
+                document.getElementById('total').innerText = `${inp.value * data.obj.sell} (sotildi)`
+            }
+        }
+        else if (mode.value == 'add') {
+            document.getElementById('total').innerText = `${inp.value * data.obj.buy} (olindi)`
+        }
+    }
+    mode.onchange = function(){
+        if (mode.value == 'sale') {
+            document.getElementById('total').innerText = `${inp.value * data.obj.sell} (sotildi)`
+            if(inp.value > data.obj.quantity){
+                alert('siz kiritgancha mahsulot yoq')
+                inp.value = data.obj.quantity
+                quantity.innerHTML = inp.value
+                document.getElementById('total').innerText = `${inp.value * data.obj.sell} (sotildi)`
+            }
+        }
+        else if (mode.value == 'add') {
+            document.getElementById('total').innerText = `${inp.value * data.obj.buy} (olindi)`
+        }
+    }
+    
+    
+</script>
+{% endblock code %}

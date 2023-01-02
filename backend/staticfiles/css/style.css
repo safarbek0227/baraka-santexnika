@@ -316,7 +316,7 @@ nav {
 }
 
 .monthly-information .card {
-    z-index: -5;
+    /* z-index: -5; */
     position: relative;
     display: flex;
     width: 100%;
@@ -610,38 +610,12 @@ li.finished .cbx:after {
     padding: 10px 20px;
     outline: none;
 }
-.focus-item{
-    z-index: 55;
-}
-.focus-item .dropdown{
-    display: none;
-    list-style: none;
-    font-size: x-large;
-    position: absolute;
-    padding: 15px;
-    width: 250px;
-    margin-top: 20px;
-    margin-left: 50px;
-    border-radius: 15px;
-    background-color: var(--bg-color);
-    outline: none;
-    z-index: 44;
-}
+
 .table-header option{
     background-color: var(--bg-color);
     margin: 5px;
 }
-.focus-item .dropdown li::before{
-    font-family: "Font Awesome 6 Pro";
-    font-weight: 900;
-    content: '\e0ad';
-    margin: 0 10px;
-    color: #22D49F;
-}
-.focus-item.active .dropdown{
-    display: block;
 
-}
 
 .search-form{
     max-width: 600px;
@@ -707,7 +681,6 @@ li.finished .cbx:after {
    .card main{
     font-size: medium;
    }
-    
 }
 .card footer{
     border-bottom-left-radius: 15px;
@@ -738,6 +711,12 @@ li.finished .cbx:after {
 .card .row >div:last-child{
     text-align: end;
     padding-right: 20px;
+    text-overflow:clip; 
+    overflow: unset;
+}
+.card .row >div:last-child i{
+    font-size: x-large;
+    margin: 0 5px;
 }
 .card .row{
     width: 100%;
@@ -755,6 +734,7 @@ strong.come{
     width: max-content;
     padding: 5px 10px;
     border-radius: 15px;
+    font-size: medium;
 }
 strong.sale{
     border:  2px solid #FF5B6D;
@@ -764,6 +744,7 @@ strong.sale{
     width: max-content;
     padding: 5px 10px;
     border-radius: 15px;
+    font-size: medium;
 }
 main.center{
     width: 100%;
@@ -800,6 +781,14 @@ main.center{
         margin: 25px 15px;
         padding: 15px;
         font-size: xx-large;
+    }
+    .card .row >div:last-child i{
+        font-size: larger;
+    }
+    .card .row strong.sale,
+    .card .row strong.come
+    {
+        font-size: xx-small;
     }
 }
 .input-group input,
@@ -866,4 +855,8 @@ form button.false{
     justify-content: space-between;
 }
 
+input[type= 'number']{
+    appearance: textfield !important;
+    -webkit-appearance:textfield !important; 
 
+}
