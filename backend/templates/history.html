@@ -20,6 +20,7 @@
             <ul>
                 <li><a href="{% url 'main:product' %}">Mahsulotlar <span class="undrline"></span></a></li>
                 <li  class="active"><a href="{% url 'main:history' %}">Tarix <span class="undrline"></span></a></li>
+                <li ><a href="{% url 'main:getCarts' %}">Savatlar <span class="undrline"></span></a></li>
             </ul>
             <div class="total">
                 <span></span>
@@ -84,8 +85,9 @@
                             <span class="number">{{history.price}}</span>
                         </div>
                         <div class="col-2">
-                            <strong class="number">{{history.comment}}</strong>
+                            {{history.comment}}
                         </div>
+                        <div class="col-1"></div>
                     </div>
                     {% empty %}
                     <br><br>

@@ -9,7 +9,7 @@ TIME = (
     )
 class Searchform(forms.ModelForm):
     query = forms.CharField()
-    query.widget.attrs.update({'placeholder': 'qidiruv', 'onkeyup':'sumbit()'})
+    query.widget.attrs.update({'placeholder': 'qidiruv'})
     time = forms.ChoiceField(choices = TIME)
     class Meta:
         model = HistoryProduct
@@ -19,6 +19,12 @@ class Searchform(forms.ModelForm):
     #     super(Searchform, self).__init__(*args, **kwargs)
     #     self.fields['mode'].required = False
 
+class CartFilter(forms.Form):
+    query = forms.CharField()
+    query.widget.attrs.update({'placeholder': 'qidiruv',})
+    time = forms.ChoiceField(choices = TIME)
+
+
 class ProductSearchform(forms.ModelForm):
     query = forms.CharField()
     query.widget.attrs.update({'placeholder': 'qidiruv', 'onkeyup':'sumbit()'})
@@ -26,3 +32,8 @@ class ProductSearchform(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['group']
+
+class CartForm(forms.ModelForm):
+    class Meta:
+        model = HistoryProduct
+        fields = ['product', 'comment', 'quantity',]

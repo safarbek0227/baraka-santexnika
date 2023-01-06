@@ -124,6 +124,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRONJOBS = [
+    ('7 * * * *', 'main.cron.my_cron_job')
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

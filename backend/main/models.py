@@ -4,18 +4,13 @@ from datetime import timedelta
 from django.utils import timezone
 
 
-# Create your models here.
-def one_month_from_today():
-    return timezone.now() + timedelta(days=30)
-
-
 class MontylyReport(models.Model):
     income = models.IntegerField('kirim')
     outcome = models.PositiveIntegerField('chiqim')
     sells = models.PositiveIntegerField('sotildi')
     stock = models.PositiveIntegerField('sotib olindi')
-    end_date  = models.DateField(default=one_month_from_today, blank=True, null=True)
-
+    created_at = models.DateTimeField("Created at", auto_now_add=True, blank=False)
+    
     def __str__(self):
         return f"Kirim: {self.income}, Chiqim: {self.outcome}, Sotildi: {self.sells}, Sotil olindi{self.stock}"
 
@@ -79,13 +74,13 @@ class HistoryProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products', related_query_name="product")
     mode = models.CharField(choices=MODE, max_length=128)
     quantity = models.PositiveIntegerField()
-    price = models.CharField(max_length=256, blank=True)
+    price = models.IntegerField(blank=True)
     is_calc = models.BooleanField(default=True)
-    comment = models.TextField(blank=True)
+    comment = models.TextField(blank=False)
     created_at = models.DateTimeField("Created at", auto_now_add=True)
 
     def save(self,*args, **kwargs):
-        self.price = f"{(self.quantity * self.product.sell)}"
+        self.price = (self.quantity * self.product.sell)
         if self.is_calc:
             if self.mode == 'add':
                 report = MontylyReport.objects.last()
@@ -114,3 +109,10 @@ class HistoryProduct(models.Model):
 
 
 
+class Cart(models.Model):
+    history = models.ManyToManyField(HistoryProduct)
+    total = models.PositiveIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField("Created at", auto_now_add=True)
+    
+    

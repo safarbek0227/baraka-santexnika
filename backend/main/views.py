@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -12,7 +12,7 @@ from .models import *
 # Create your views here.
 @login_required
 def HomeView(request):
-    report = MontylyReport.objects.last()
+    report = MontylyReport.objects.first()
     todo = Todo.objects.all().order_by('is_active')
     history = HistoryProduct.objects.select_related('product').all()
 
@@ -69,6 +69,7 @@ def historyView(request):
 
     return render(request, 'history.html', {'histories': page_obj, 'form': form})
 
+@login_required
 def productView(request):
     products = Product.objects.select_related('group').all()
     form = ProductSearchform(request.GET or None)
@@ -91,6 +92,13 @@ def productView(request):
 
     return render(request, 'product.html',  {'products': page_obj, 'form': form})
 
+@login_required
+def GetCart(request):
+    form = CartFilter(request.GET or None)
+    cart =  Cart.objects.prefetch_related('history').all()
+    return render(request, 'cartdetail.html', {'form': form, 'carts': cart})
+
+
 class ProductCreate(LoginRequiredMixin, CreateView):
     model = Product
     template_name = 'addproduct.html'
@@ -112,7 +120,7 @@ class CreateHistory(LoginRequiredMixin, CreateView):
     model = HistoryProduct
     template_name = 'AddHistory.html'
     fields = '__all__'
-    exclude = ('is_calc')
+    exclude = ('is_calc', 'price')
     success_url = '/history/'
 
     def get_initial(self):
@@ -124,7 +132,56 @@ class CreateHistory(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+@login_required
 def GetProduct(request):
     if request.method == 'GET' and request.user.is_authenticated:
         obj = Product.objects.select_related('group').get(id = request.GET.get('data', True))
         return JsonResponse({'obj': model_to_dict(obj)})
+
+
+@login_required
+def CartView(request):
+    form = CartForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            obj.is_calc = True 
+            obj.mode = 'sale'
+            obj.save()
+            cart = Cart.objects.create(total = obj.price )
+            cart.history.add(obj)
+            cart.save()
+            return redirect(f'/cart/{cart.id}')
+
+    return render(request, 'cart.html', {'form': form})
+
+
+@login_required
+def CartDetail(request, id):
+    #objects
+    cart = Cart.objects.prefetch_related('history').get(id=id)
+    history = cart.history.select_related('product').all()
+    #forms
+    form = CartForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            obj = form.save()
+            obj.is_calc = True 
+            obj.mode = 'sale'
+            obj.save()
+
+            cart.history.add(obj)
+            cart.total = cart.total + obj.price
+            cart.save()
+            return redirect(f'/cart/{cart.id}')
+
+    if request.method == 'GET':
+        if request.GET.get('shortinfo', False):
+            cart.comment = request.GET.get('shortinfo', True)
+            cart.save()
+
+            return redirect(f'/get-carts')
+        
+
+
+    return render(request, 'cart.html', {'form': form, 'cart': cart, 'histories': history})

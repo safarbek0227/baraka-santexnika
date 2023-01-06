@@ -16,3 +16,5 @@ class HistoryProductAdmin(admin.ModelAdmin):
 	list_display = ("product", "mode", "quantity",'comment')
 	list_filter = ("mode", "created_at")
 	search_fields = ['comment']
+
+admin.site.register(Cart)

@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content">
+    <nav>
+        <div class="whater">
+            <h4 style="display: inline;"><span class="degres"></span><sup>0</sup>C</h4>
+            <img src="" alt="" class="wheather-img" width="40px">
+        </div>
+        <div class="user">
+            <a href="">
+                {% if request.user.is_authenticated %}
+                <span>{{request.user}}</span>
+                <i class="fa-solid fa-industry-windows"></i>
+                {% endif %}
+            </a>
+        </div>
+    </nav>
+    <main class="center" style="height: unset;">
+        <div class="card add-product" style="padding: 25px; max-width: unset;">
+            <div class="row">
+                <div class="col-lg-6">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <i class="fa-duotone fa-tape"></i>
+                            {{form.product}}
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-sharp fa-solid fa-input-numeric"></i>
+                            {{form.quantity }}
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-comments-dollar"></i>
+                            {{form.comment}}
+                        </div>
+                        <button type="submit" class="submit">submit</button>
+                    </form>
+                </div>
+                <div class="col-lg-6" id="res-data">
+
+                </div>
+            </div>
+        </div>
+        <br><br>
+    </main>
+    <div class="row" style="margin: 25px 0;">
+        <div class="col-xl-8 col-lg-7">
+            <div class="card" style="padding: 1px !important; display: block; width: 100%;">
+                <div class="table-content">
+                    <header>
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>Nomi</strong>
+                            </div>
+                            <div class="col-3">
+                                <strong>Holati</strong>
+                            </div>
+                            <div class="col-3">
+                                <strong>Soni</strong>
+                            </div>
+                            <div class="col-3">
+                                <strong>Narxi</strong>
+                            </div>
+                            <div class="col-1"></div>
+                        </div>
+                    </header>
+                    <main>
+                        {% for history in histories %}
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>{{history.product.name}}</strong>
+                            </div>
+                            <div class="col-3">
+                                <strong class="sale">sotildi</strong>
+                                <span>{{history.created_at}}</span>
+                            </div>
+                            <div class="col-3">
+                                <strong><span class="number">{{history.quantity}}</span> {{history.product.measure}}</strong>
+                            </div>
+                            <div class="col-3">
+                                <span class="number">{{history.price}}</span>Sum
+                            </div>
+                            <div class="col-1"></div>
+                        </div>
+                        {% empty %}
+                        <br><br>
+                        <div class="row" style="border: none;">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <h1 class="text-warning">Hech narsa topilmadi!  :)</h1>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                        <br><br>
+                        {% endfor %}
+                    </main>
+                    <br><br><br>
+                    <footer>
+                        <div class="row">
+                            <div class="col-7"></div>
+                            <div class="col-5 text-warning"><h2>Jami : {{cart.total}}</h2></div>
+                        </div>
+                    </footer>
+                </div>
+    
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-5">
+            <aside class="m-0">
+                <form action="" method="get" class="add-product" >
+                    <h4>Agar Ushbu savat tugagan bolsa unga manzilni yozing va uni yoping</h4>
+                    <div class="input-group">
+                        <i class="fa-solid fa-comments-dollar"></i>
+                        <textarea name="shortinfo" id="" cols="45" rows="4" placeholder="Yuk xati, uy manzili va hakozolar">{{cart.comment}}</textarea>
+                    </div>
+                    <button type="submit" class="submit">submit</button>
+                </form>
+            </aside>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block code %}
+<style>
+    .add-product ul {
+        font-size: xx-large;
+        text-align: left;
+        margin: 10%;
+        list-style: none;
+    }
+
+    .add-product li {
+        margin: 10px 0;
+    }
+
+    .add-product ul strong {
+        color: var(--warning);
+        margin-right: 15px;
+    }
+
+    @media (max-width: 1440px) {
+        .add-product ul {
+            font-size: x-large;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .add-product ul {
+            font-size: xx-large;
+        }
+    }
+
+    .b-black {
+        border: 5px solid grey !important;
+    }
+    table{
+        font-size: x-large;
+        padding: 15px;
+        border-radius: 25px;
+        border: 1px solid var(--primary);
+    }
+    td{
+        padding: 10px;
+    }
+    tr td:first-child{
+        text-transform: capitalize;
+    }
+</style>
+<script>
+    num = document.querySelectorAll('.number')
+    for (let i = 0; i< num.length; i++){
+        num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g,'$1,')
+    }
+    let textfield = document.getElementById('id_comment').rows = 2
+    let query = document.getElementById('id_product')
+    let inp = document.getElementById('id_quantity')
+    let data = ''
+
+    inp.disabled = true
+    inp.placeholder = 'soni'
+    inp.parentElement.classList.add('b-black')
+
+    query.addEventListener('change', SendData)
+    window.addEventListener('load', SendData)
+
+    function SendData() {
+        if (query.value != '') {
+            if (window.XMLHttpRequest) {
+                var xhttp = new XMLHttpRequest();
+            } else {  // code for IE6, IE5
+                var xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    data = JSON.parse(this.responseText);
+                    inp.disabled = false
+                    inp.parentElement.classList.remove('b-black')
+                    object = data.obj
+                    block = document.getElementById('res-data')
+                    block.innerHTML = `
+                        <ul>
+                            <li><strong>Nomi:</strong> ${object.name}</li>
+                            <li><strong>Qoldi:</strong>${object.quantity}${object.measure}</li>
+                            <li><strong>Olinishi:</strong> <span class='number'>${object.buy}(Sum)</span> </li>
+                            <li><strong>Sotilishi:</strong><span class="number">${object.sell}(Sum)</span> </li>
+                            <li style='margin: 15px 0;'> <hr style='width:80%'></li>
+                            <li><strong>necha ${object.measure}:</strong> <span id='quantity'></span> ${object.measure}</li>
+                            <li><strong>Jami summa:</strong> <span id=total></span></li>
+                        </ul>
+                    `
+                }
+            }
+            var url = "/getproduct/"
+            xhttp.open("GET", url + `?data=${query.value}`, true);
+            xhttp.send();
+
+        }
+        if (query.value == '') {
+            inp.disabled = true
+            inp.parentElement.classList.add('b-black')
+            document.getElementById('res-data').innerHTML = ''
+
+        }
+    }
+
+    inp.onkeyup = function () {
+        quantity = document.getElementById('quantity')
+        quantity.innerHTML = inp.value
+        document.getElementById('total').innerText = `${inp.value * data.obj.sell} (sotildi)`
+        if (inp.value > data.obj.quantity) {
+            alert('siz kiritgancha mahsulot yoq')
+            inp.value = data.obj.quantity
+            quantity.innerHTML = inp.value
+            document.getElementById('total').innerText = `${inp.value * data.obj.sell} (sotildi)`
+
+
+
+        }
+    }
+
+
+</script>
+{% endblock code %}
