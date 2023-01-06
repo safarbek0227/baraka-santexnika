@@ -284,8 +284,17 @@ nav {
         font-size: x-large;
     }
 }
+@media (max-width: 1280px){
+    .sidebar ul{
+        font-size: x-large;
+        margin-top: 50;
+    }
+    .sidebar ul li{
+        margin: 25px auto;
+    }
+}
 
-@media (max-width: 768px) {
+@media (max-width: 990px) {
     nav {
         padding: 12px 0;
         flex-direction: column-reverse;
@@ -308,6 +317,13 @@ nav {
     .user {
         width: 100%;
         font-size: larger;
+    }
+    .sidebar ul{
+        font-size: xx-large;
+        margin-top: 80;
+    }
+    .sidebar ul li{
+        margin: 50px auto;
     }
 }
 
