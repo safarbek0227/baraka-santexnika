@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.forms.models import model_to_dict
 from .forms import *
 from .models import *
+import json
  
 # Create your views here.
 @login_required
@@ -96,6 +97,13 @@ def productView(request):
 def GetCart(request):
     form = CartFilter(request.GET or None)
     cart =  Cart.objects.prefetch_related('history').all()
+    if request.method == 'GET':
+        if form['time'].value():
+            start = timezone.now() - timedelta(days=int(form['time'].value()))
+            cart = cart.filter(created_at__range=[start,timezone.now()])    
+        if form['query'].value():
+            cart = cart.filter(customer__icontains=form['query'].value())
+
     return render(request, 'cartdetail.html', {'form': form, 'carts': cart})
 
 
@@ -176,12 +184,18 @@ def CartDetail(request, id):
             return redirect(f'/cart/{cart.id}')
 
     if request.method == 'GET':
-        if request.GET.get('shortinfo', False):
-            cart.comment = request.GET.get('shortinfo', True)
+        if request.GET:
+            cart.customer = request.GET.get('user', True)
+            cart.number = request.GET.get('number', True)
+            cart.adress = request.GET.get('adress', True)
             cart.save()
 
             return redirect(f'/get-carts')
         
-
-
     return render(request, 'cart.html', {'form': form, 'cart': cart, 'histories': history})
+
+def DataView(request, id):
+    cart = Cart.objects.prefetch_related('history').get(id=id)
+    history = cart.history.select_related('product').all()
+
+    return render(request, 'word.html',  {'cart': cart, 'histories': history})

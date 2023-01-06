@@ -110,8 +110,16 @@
                 <form action="" method="get" class="add-product" >
                     <h4>Agar Ushbu savat tugagan bolsa unga manzilni yozing va uni yoping</h4>
                     <div class="input-group">
-                        <i class="fa-solid fa-comments-dollar"></i>
-                        <textarea name="shortinfo" id="" cols="45" rows="4" placeholder="Yuk xati, uy manzili va hakozolar">{{cart.comment}}</textarea>
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="user" placeholder="xaridor" value="{{cart.customer}}" autocomplete="off" required>                        
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-phone"></i>
+                        <input type="number" name="number" placeholder="telefon raqami" value="{{cart.number}}"  autocomplete="off" required>                        
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-home"></i>
+                        <input type="text" name="adress" placeholder="yashash manzili" value="{{cart.adress}}"  autocomplete="off" required>                        
                     </div>
                     <button type="submit" class="submit">submit</button>
                 </form>

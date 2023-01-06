@@ -15,5 +15,6 @@ urlpatterns = [
     path('create-history/', views.CreateHistory.as_view(), name="create-history"),
     path('getproduct/', views.GetProduct, name='getProduct'),
     path('cart/', views.CartView, name='cart'),
-    path('cart/<id>', views.CartDetail, name='cart-detail')
+    path('cart/<id>', views.CartDetail, name='cart-detail'),
+    path('data/<id>', views.DataView, name='data')
 ]

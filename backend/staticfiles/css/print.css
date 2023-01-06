@@ -1,0 +1,33 @@
+h1{
+    font-size: xxx-large;
+}
+h2{
+    font-size: xx-large;
+}
+table{
+    width: 100%;
+    font-size: x-large;
+}
+ul{
+    font-size: x-large;
+    list-style: none;
+}
+ul strong{
+    font-size: xx-large;
+    margin-right: 15px;
+}
+.border-none{
+    border: none;
+}
+button {
+    display: block;
+    text-align: -webkit-center;
+    padding: 10px 25px;
+    background-color: #F7931A;
+    border-radius: 15px;
+    font-size: x-large;
+    color: #fff;
+    transition: all 0.5s ease;
+    margin: auto;
+    border: none;
+}

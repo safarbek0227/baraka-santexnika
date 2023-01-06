@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>baraka Santexnika</title>
+    <link rel="stylesheet" type="text/css" media="print" href="/static/css/print.css" />
+
+</head>
+
+<body>
+    <div id="print-section">
+    
+        <center>
+            <h1>Xaridingizuchun tashakkur 😊</h1>
+        </center>
+        <center>
+            <h2>Baraka Santexnika</h2>
+        </center>
+        <br>
+        <ul>
+            <li><strong>Kimga:</strong>{{cart.customer}}</li>
+            <li><strong>Tel:</strong>+998{{cart.number}}</li>
+            <li><strong>Manzil:</strong>{{cart.adress}}</li>
+            <li><strong>Sana Vaqt</strong>{{cart.created_at}}</li>
+        </ul>
+        <table border="1">
+            <tr>
+                <th>Mahsulot nomi</th>
+                <th>O'lchov birligi</th>
+                <th>Miqdor</th>
+                <th>Narxi</th>
+                <th>Umumiy summa</th>
+            </tr>
+
+            {% for history in histories %}
+            <tr>
+                <td>{{history.product.name}}</td>
+                <td>{{history.product.measure}}</td>
+                <td>{{history.quantity}}{{history.product.measure}}</td>
+                <td><span class="number">{{history.product.sell}}</span> sum</td>
+                <td><span class="number">{{history.price}}</span> sum</td>
+            </tr>
+            {% endfor %}
+
+
+            <tr>
+                <td colspan="5">
+                    <br><br>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="3" class="border-none"></th>
+                <th colspan="2">Jami summa: <span class="number">{{cart.total}}Sum</span></th>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <center>
+        <button onclick="print()"> Chop etish</button>
+    </center>
+
+    <style type="text/css">
+        button {
+            display: block;
+            text-align: -webkit-center;
+            padding: 10px 25px;
+            background-color: #F7931A;
+            border-radius: 15px;
+            font-size: x-large;
+            color: #fff;
+            transition: all 0.5s ease;
+            margin: auto;
+            border: none;
+        }
+
+        h1 {
+            font-size: xxx-large;
+        }
+
+        h2 {
+            font-size: xx-large;
+        }
+
+        table {
+            width: 100%;
+            font-size: x-large;
+        }
+
+        ul {
+            font-size: x-large;
+            text-transform: uppercase;
+            list-style: none;
+        }
+
+        ul strong {
+            text-transform: capitalize;
+            font-size: xx-large;
+            margin-right: 15px;
+        }
+
+        .border-none {
+            border: none;
+        }
+    </style>
+    <script>
+        num = document.querySelectorAll('.number')
+        for (let i = 0; i < num.length; i++) {
+            num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        }
+        window.onload = function () {
+            window.print()
+
+        }
+        window.onafterprint = function () {
+            console.log('ads')
+            window.location.href = '/get-carts'
+        }
+    </script>
+</body>
+
+</html>

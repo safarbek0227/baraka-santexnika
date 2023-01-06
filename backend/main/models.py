@@ -112,7 +112,11 @@ class HistoryProduct(models.Model):
 class Cart(models.Model):
     history = models.ManyToManyField(HistoryProduct)
     total = models.PositiveIntegerField()
-    comment = models.TextField()
+    customer = models.CharField(max_length=256)
+    number = models.CharField(max_length=256)
+    adress = models.CharField(max_length=256)
     created_at = models.DateTimeField("Created at", auto_now_add=True)
-    
+
+    class Meta:
+        ordering = ['-id']
     
