@@ -10,23 +10,41 @@
 <body>
     <div id="print-section">
     
-        <center>
-            <h1>Xaridingizuchun tashakkur 😊</h1>
-        </center>
-        <center>
-            <h2>Baraka Santexnika</h2>
-        </center>
-        <br>
-        <ul>
-            <li><strong>Kimga:</strong>{{cart.customer}}</li>
-            <li><strong>Tel:</strong>+998{{cart.number}}</li>
-            <li><strong>Manzil:</strong>{{cart.adress}}</li>
-            <li><strong>Sana Vaqt</strong>{{cart.created_at}}</li>
-        </ul>
+
+        <table>
+            <tr>
+                <td style="width: 30%;">
+                    <br>
+                    <ul>
+                        <li><strong>Kimga:</strong>{{cart.customer}}</li>
+                        <li><strong>Tel:</strong>+998{{cart.number}}</li>
+                        <li><strong>Manzil:</strong>{{cart.adress}}</li>
+                        <li><strong>Sana Vaqt</strong>{{cart.created_at}}</li>
+                    </ul>
+                </td>
+                <td width="40%">
+                    <center>
+                        <h3>Hisob faktura</h3>
+                    </center>
+                    <center>
+                        <h4>Baraka Santexnika</h4>
+                    </center>
+                </td>
+                <td style="width: 30%;">
+                    <br>
+                    <ul>
+                        <li><strong>kimdan:</strong>Baraka santexnika</li>
+                        <li><strong>Tel:</strong>+99893 194 15 34, +99899 726 80 14</li>
+                        <li><br></li>
+                        <li><strong>Manzil:</strong>_____________</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
         <table border="1">
             <tr>
+                <th>&#8470;</th>
                 <th>Mahsulot nomi</th>
-                <th>O'lchov birligi</th>
                 <th>Miqdor</th>
                 <th>Narxi</th>
                 <th>Umumiy summa</th>
@@ -34,8 +52,8 @@
 
             {% for history in histories %}
             <tr>
+                <td class="id"></td>
                 <td>{{history.product.name}}</td>
-                <td>{{history.product.measure}}</td>
                 <td>{{history.quantity}}{{history.product.measure}}</td>
                 <td><span class="number">{{history.product.sell}}</span> sum</td>
                 <td><span class="number">{{history.price}}</span> sum</td>
@@ -73,28 +91,20 @@
             border: none;
         }
 
-        h1 {
-            font-size: xxx-large;
-        }
-
-        h2 {
-            font-size: xx-large;
-        }
-
         table {
             width: 100%;
-            font-size: x-large;
+            font-size: medium;
         }
 
         ul {
-            font-size: x-large;
+            font-size: small;
             text-transform: uppercase;
             list-style: none;
         }
 
         ul strong {
             text-transform: capitalize;
-            font-size: xx-large;
+            font-size: larger;
             margin-right: 15px;
         }
 
@@ -108,13 +118,18 @@
         for (let i = 0; i < num.length; i++) {
             num[i].innerText = String(num[i].innerText).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         }
-        window.onload = function () {
-            window.print()
+        id_num = document.querySelectorAll('.id')
+        for(let j = 0; j< id_num.length; j++){
+            console.log(id_num)
+            id_num[j].innerText = j+1
+        }
+        // window.onload = function () {
+        //     window.print()
 
-        }
-        window.onafterprint = function () {
-            window.location.href = '/get-carts'
-        }
+        // }
+        // window.onafterprint = function () {
+        //     window.location.href = '/get-carts'
+        // }
     </script>
 </body>
 
